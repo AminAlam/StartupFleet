@@ -573,69 +573,136 @@ export class GameEngine {
         this.ctx.fillText(island.expanded ? "-" : "+", btnX, btnY + 1);
     }
 
+    // Helper to wrap text within a max width
+    wrapText(text, maxWidth, font) {
+        this.ctx.font = font;
+        const words = text.split(' ');
+        const lines = [];
+        let currentLine = '';
+        
+        for (const word of words) {
+            const testLine = currentLine ? currentLine + ' ' + word : word;
+            const metrics = this.ctx.measureText(testLine);
+            
+            if (metrics.width > maxWidth && currentLine) {
+                lines.push(currentLine);
+                currentLine = word;
+            } else {
+                currentLine = testLine;
+            }
+        }
+        if (currentLine) {
+            lines.push(currentLine);
+        }
+        return lines;
+    }
+
     drawDetailsPanel(island) {
-        const width = 300;
+        const width = 350; // Wider panel for full text
         const x = island.x - width/2;
-        const y = island.y + 80;
+        const baseY = island.y + 80;
+        const padding = 15;
+        const textWidth = width - (padding * 2) - 25; // Account for bullet point
         
         const kpis = island.kpis || [];
-        const descHeight = 40; 
-        const height = 50 + descHeight + (kpis.length * 40); 
         
+        // Calculate dynamic height based on wrapped text
+        this.ctx.font = "12px Poppins";
+        let totalHeight = 60; // Header + separator
+        
+        // Island description height
+        if (island.desc) {
+            const descLines = this.wrapText(island.desc, textWidth + 10, "italic 11px Poppins");
+            totalHeight += descLines.length * 14 + 10;
+        }
+        
+        // KPI heights
+        kpis.forEach(kpi => {
+            const kpiLines = this.wrapText(kpi.desc, textWidth, "12px Poppins");
+            totalHeight += kpiLines.length * 14 + 25; // Line height + spacing for deadline
+        });
+        
+        if (kpis.length === 0) {
+            totalHeight += 20;
+        }
+        
+        totalHeight += 15; // Bottom padding
+        
+        // Draw panel background
         this.ctx.save();
-        this.ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
-        this.ctx.shadowColor = "rgba(0,0,0,0.1)";
-        this.ctx.shadowBlur = 20;
+        this.ctx.fillStyle = "rgba(255, 255, 255, 0.97)";
+        this.ctx.shadowColor = "rgba(0,0,0,0.15)";
+        this.ctx.shadowBlur = 25;
         this.ctx.beginPath();
-        this.ctx.roundRect(x, y, width, height, 12);
+        this.ctx.roundRect(x, baseY, width, totalHeight, 12);
         this.ctx.fill();
+        this.ctx.shadowBlur = 0;
         
-        this.ctx.fillStyle = "#455a64";
+        // Header
+        this.ctx.fillStyle = "#37474f";
         this.ctx.font = "bold 14px Poppins";
         this.ctx.textAlign = "left";
-        this.ctx.fillText("OBJECTIVES & KPIs", x + 15, y + 25);
+        this.ctx.fillText("OBJECTIVES & KPIs", x + padding, baseY + 25);
         
+        // Separator line
         this.ctx.beginPath();
-        this.ctx.moveTo(x + 15, y + 35);
-        this.ctx.lineTo(x + width - 15, y + 35);
-        this.ctx.strokeStyle = "#eee";
+        this.ctx.moveTo(x + padding, baseY + 38);
+        this.ctx.lineTo(x + width - padding, baseY + 38);
+        this.ctx.strokeStyle = "#e0e0e0";
         this.ctx.lineWidth = 1;
         this.ctx.stroke();
 
-        let ty = y + 55;
+        let ty = baseY + 55;
 
+        // Island description (wrapped)
         if(island.desc) {
             this.ctx.font = "italic 11px Poppins";
-            this.ctx.fillStyle = "#78909c";
-            const text = island.desc.length > 45 ? island.desc.substring(0, 45) + '...' : island.desc;
-            this.ctx.fillText(text, x + 15, ty);
-            ty += 20;
+            this.ctx.fillStyle = "#607d8b";
+            const descLines = this.wrapText(island.desc, textWidth + 10, "italic 11px Poppins");
+            descLines.forEach(line => {
+                this.ctx.fillText(line, x + padding, ty);
+                ty += 14;
+            });
+            ty += 8;
         }
 
-        this.ctx.font = "13px Poppins";
-        
+        // KPIs
         if (kpis.length === 0) {
-            this.ctx.fillStyle = "#999";
-            this.ctx.fillText("No KPIs defined yet.", x + 15, ty);
+            this.ctx.font = "12px Poppins";
+            this.ctx.fillStyle = "#9e9e9e";
+            this.ctx.fillText("No KPIs defined yet.", x + padding, ty);
         }
 
         kpis.forEach(kpi => {
-            this.ctx.fillStyle = kpi.completed ? "#66bb6a" : "#ffa726";
+            // Status bullet
+            this.ctx.fillStyle = kpi.completed ? "#4caf50" : "#ff9800";
             this.ctx.beginPath();
-            this.ctx.arc(x + 20, ty - 4, 4, 0, Math.PI*2);
+            this.ctx.arc(x + padding + 6, ty - 4, 5, 0, Math.PI*2);
             this.ctx.fill();
 
+            // KPI description (wrapped)
+            this.ctx.font = "12px Poppins";
             this.ctx.fillStyle = "#333";
-            const text = kpi.desc.length > 30 ? kpi.desc.substring(0, 30) + '...' : kpi.desc;
-            this.ctx.fillText(text, x + 35, ty);
+            const kpiLines = this.wrapText(kpi.desc, textWidth, "12px Poppins");
+            kpiLines.forEach((line, idx) => {
+                this.ctx.fillText(line, x + padding + 20, ty + (idx * 14));
+            });
+            ty += kpiLines.length * 14 + 4;
+            
+            // Deadline and status
+            this.ctx.font = "10px Poppins";
+            const status = kpi.completed ? "✓ Completed" : "○ Pending";
+            const statusColor = kpi.completed ? "#4caf50" : "#ff9800";
+            
+            this.ctx.fillStyle = statusColor;
+            this.ctx.fillText(status, x + padding + 20, ty);
             
             if(kpi.deadline) {
                 this.ctx.fillStyle = "#90a4ae";
-                this.ctx.font = "10px Poppins";
-                this.ctx.fillText(kpi.deadline, x + width - 75, ty);
-                this.ctx.font = "13px Poppins"; 
+                this.ctx.fillText("Due: " + kpi.deadline, x + padding + 100, ty);
             }
-            ty += 35;
+            
+            ty += 20;
         });
 
         this.ctx.restore();

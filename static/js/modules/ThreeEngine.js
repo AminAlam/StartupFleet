@@ -469,13 +469,25 @@ export class ThreeEngine {
 
         Object.values(this.meshes).forEach(mesh => {
             if (mesh.userData.type === 'ship') {
+                // Get water height at ship's world position
                 const waterH = getWaterHeight(mesh.position.x, mesh.position.z);
                 const baseY = this.water.position.y;
-                mesh.position.y = baseY + waterH + 8; // Raised higher above bigger waves
                 
-                // More dramatic bobbing rotation for bigger waves
-                mesh.rotation.x = Math.sin(time * 1.5 + mesh.position.x * 0.01) * 0.12;
-                mesh.rotation.z = Math.cos(time * 1.2 + mesh.position.z * 0.01) * 0.1;
+                // Ship floats on water: water surface = baseY + waterH
+                // Add small positive offset so ship sits ON the waves, not under them
+                mesh.position.y = baseY + waterH + 4;
+                
+                // Calculate wave slope for realistic tilting
+                // Sample nearby points to determine wave gradient
+                const sampleDist = 20;
+                const hAhead = getWaterHeight(mesh.position.x, mesh.position.z - sampleDist);
+                const hBehind = getWaterHeight(mesh.position.x, mesh.position.z + sampleDist);
+                const hLeft = getWaterHeight(mesh.position.x - sampleDist, mesh.position.z);
+                const hRight = getWaterHeight(mesh.position.x + sampleDist, mesh.position.z);
+                
+                // Tilt based on wave slope (pitch and roll)
+                mesh.rotation.x = (hBehind - hAhead) / sampleDist * 0.3;
+                mesh.rotation.z = (hRight - hLeft) / sampleDist * 0.3;
                 
                 // Keep text facing cam
                 if(mesh.children.length > 1) {
