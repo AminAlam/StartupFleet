@@ -1106,4 +1106,14 @@ export class GameEngine {
             icon: team.icon
         });
     }
+
+    addIslandMode() {
+        this.placingIsland = true;
+        this.placingMainGoal = false;
+    }
+
+    addMainGoalMode() {
+        this.placingMainGoal = true;
+        this.placingIsland = false;
+    }
 }
