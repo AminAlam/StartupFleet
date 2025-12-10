@@ -1,0 +1,35 @@
+{
+    "islands": [
+        {
+            "icon": "\ud83c\udfdd\ufe0f",
+            "id": "e1765364650233",
+            "kpis": "rfrfrf",
+            "title": "rfrfrfrf",
+            "x": 711,
+            "y": 340
+        }
+    ],
+    "teams": [
+        {
+            "color": "#F1948A",
+            "deployed": [
+                "e1765364650233"
+            ],
+            "icon": "\ud83e\ude7a",
+            "id": "t1765364643442",
+            "name": "frfrfrf",
+            "totalShips": 3
+        },
+        {
+            "color": "#FF6B6B",
+            "deployed": [
+                "e1765364650233",
+                "e1765364650233"
+            ],
+            "icon": "\ud83e\udd1d",
+            "id": "t1765364666417",
+            "name": "engineering",
+            "totalShips": 3
+        }
+    ]
+}

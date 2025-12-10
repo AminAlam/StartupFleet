@@ -1,0 +1,86 @@
+{
+    "islands": [
+        {
+            "id": "e1",
+            "kpis": "1. Enroll 300 patients\n2. Primary endpoint met",
+            "statement": "Prove safety & efficacy",
+            "title": "CLINICAL TRIALS",
+            "x": 600,
+            "y": 100
+        },
+        {
+            "id": "e2",
+            "kpis": "1. Submit 510(k)\n2. Pass ISO audit",
+            "statement": "Obtain FDA Clearance",
+            "title": "REGULATORY",
+            "x": 600,
+            "y": 250
+        },
+        {
+            "id": "e3",
+            "kpis": "1. CPT Code granted\n2. 5 Payer meetings",
+            "statement": "Secure Reimbursement",
+            "title": "MARKET ACCESS",
+            "x": 600,
+            "y": 400
+        },
+        {
+            "id": "e4",
+            "kpis": "1. 10 Early Adopters\n2. $1M Revenue",
+            "statement": "Drive Adoption",
+            "title": "COMMERCIAL",
+            "x": 850,
+            "y": 180
+        },
+        {
+            "id": "e5",
+            "kpis": "1. Yield > 95%\n2. Logistics setup",
+            "statement": "Scale Delivery",
+            "title": "OPERATIONS",
+            "x": 850,
+            "y": 330
+        }
+    ],
+    "ships": [
+        {
+            "color": "#ff4d6d",
+            "id": "s1",
+            "lead": "Dr. Sarah",
+            "name": "USS CLINICAL",
+            "target": null,
+            "x": 151.63645295814732,
+            "y": 101.09096863876486,
+            "state": "DOCKED"
+        },
+        {
+            "color": "#00b4d8",
+            "id": "s2",
+            "lead": "Mike T.",
+            "name": "USS ENGINEERING",
+            "target": "e4",
+            "x": 807.5550601722509,
+            "y": 219.78267474707746,
+            "state": "SAILING"
+        },
+        {
+            "color": "#f9c74f",
+            "id": "s3",
+            "lead": "Jennifer",
+            "name": "USS REGULATORY",
+            "target": null,
+            "x": 151.11480514312385,
+            "y": 221.6350475432483,
+            "state": "DOCKED"
+        },
+        {
+            "color": "#90be6d",
+            "id": "s4",
+            "lead": "Steve",
+            "name": "USS COMMERCIAL",
+            "target": "e5",
+            "x": 808.1154047840864,
+            "y": 369.4123506588196,
+            "state": "DOCKED"
+        }
+    ]
+}

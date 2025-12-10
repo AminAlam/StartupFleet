@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syntropic Fleet: Strategy Visualization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <div id="ui-container">
+        
+        <header>
+            <div class="brand">
+                <span class="star-icon">✦</span> Syntropic Fleet
+            </div>
+            
+            <!-- View Switcher (Top) -->
+            <div class="view-switcher">
+                <button class="btn tiny-btn active-view" id="btn-view-map" onclick="ui.switchView('map')">2D Map</button>
+                <button class="btn tiny-btn" id="btn-view-3d" onclick="ui.switchView('3d')">3D World</button>
+                <button class="btn tiny-btn" id="btn-view-matrix" onclick="ui.switchView('matrix')">Matrix</button>
+            </div>
+
+            <div class="controls">
+                <button class="btn secondary" onclick="document.getElementById('file-upload').click()">📂 Upload</button>
+                <input type="file" id="file-upload" accept=".json" style="display: none;" onchange="game.loadFromFile(this)">
+                <button class="btn secondary" onclick="game.saveToFile()">💾 Save</button>
+                <div class="divider"></div>
+                <button class="btn secondary" onclick="game.addMainGoalMode()">+ Main Goal</button>
+                <button class="btn primary" onclick="game.addIslandMode()">+ Expedition</button>
+            </div>
+        </header>
+
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <h3>Fleet Command</h3>
+                <button class="btn-icon" onclick="ui.openTeamModal()" title="Add Team">+</button>
+            </div>
+            <div id="team-list"></div>
+        </aside>
+
+        <!-- Floating Map Controls (Bottom Right - Zoom Only) -->
+        <div id="map-actions">
+            <div class="zoom-controls">
+                <button class="btn-float" onclick="game.camera.zoomIn()">+</button>
+                <button class="btn-float" onclick="game.camera.reset()">⟲</button>
+                <button class="btn-float" onclick="game.camera.zoomOut()">-</button>
+            </div>
+        </div>
+
+        <!-- Modal System -->
+        <div id="modal-overlay" class="hidden">
+            <div class="modal-card">
+                <h2 id="modal-title">Edit Item</h2>
+                <div id="modal-body"></div>
+                <div class="modal-footer">
+                    <button class="btn text-only" onclick="ui.closeModal()">Cancel</button>
+                    <button class="btn primary" id="modal-save-btn">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2D Canvas -->
+    <canvas id="world"></canvas>
+    
+    <!-- 3D Container (Three.js) -->
+    <div id="world-3d" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:5;"></div>
+
+    <!-- Dashboard / Matrix Overlay -->
+    <div id="dashboard-view" class="hidden">
+        <div class="dashboard-content">
+            <h1>Strategy Matrix & Resource Load</h1>
+            <div class="dashboard-section">
+                <h2>Team Utilization & Load</h2>
+                <div id="utilization-charts" class="charts-grid"></div>
+            </div>
+            <div class="dashboard-section">
+                <h2>Allocation Matrix (Teams vs Expeditions)</h2>
+                <div class="table-wrapper">
+                    <table id="matrix-table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/game.js"></script>
+</body>
+</html>

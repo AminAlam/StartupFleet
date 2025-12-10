@@ -1,0 +1,16 @@
+{
+  "name": "north-star-game",
+  "version": "1.0.0",
+  "description": "Strategic Visualization Platform",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "canvas": "^2.11.2"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
+}
