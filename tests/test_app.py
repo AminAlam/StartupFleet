@@ -162,9 +162,17 @@ class NorthStarTestCase(unittest.TestCase):
         """Test saving island linked to multiple main goals"""
         state = copy.deepcopy(DEFAULT_STATE)
         
-        # Link island to multiple main goals
-        main_goal_ids = [mg['id'] for mg in state['mainGoals'][:2]]
-        state['islands'][0]['mainGoalIds'] = main_goal_ids
+        # First, add a second main goal to test with
+        state['mainGoals'].append({
+            "id": "mg2", "title": "EU Expansion", "x": 200, "y": -600,
+            "icon": "🌍", "desc": "Expand to European markets."
+        })
+        
+        # Link island to multiple main goals (replace singular mainGoalId with array)
+        state['islands'][0]['mainGoalIds'] = ['mg1', 'mg2']
+        # Remove the old singular field if present
+        if 'mainGoalId' in state['islands'][0]:
+            del state['islands'][0]['mainGoalId']
         
         rv = self.client.post('/api/save',
                               data=json.dumps(state),
