@@ -280,9 +280,14 @@ describe('ParticleSystem', () => {
     test('update moves particles', () => {
         particles.spawn(0, 0);
         const initialX = particles.particles[0].x;
+        const initialY = particles.particles[0].y;
         particles.update();
-        // Cloud particles drift right
-        expect(particles.particles[0].x).toBeGreaterThan(initialX);
+        // Particles move based on velocity + cloud drift
+        // Cloud drift adds 0.2 to x, but vx can be negative (-0.25 to +0.25)
+        // So we check that position changed (not necessarily increased)
+        const movedX = particles.particles[0].x !== initialX;
+        const movedY = particles.particles[0].y !== initialY;
+        expect(movedX || movedY).toBe(true);
     });
 
     test('multiple spawns create multiple particles', () => {
