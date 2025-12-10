@@ -14,6 +14,14 @@ class Utils {
     static generateId(prefix = 'id') {
         return prefix + '_' + Math.random().toString(36).substr(2, 9);
     }
+
+    static dist(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    static clamp(val, min, max) {
+        return Math.min(Math.max(val, min), max);
+    }
     
     static showToast(message, type = 'info') {
         const container = document.getElementById('toast-container');

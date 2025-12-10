@@ -34,7 +34,7 @@ class NorthStarTestCase(unittest.TestCase):
         """Test home page loads"""
         rv = self.client.get('/')
         self.assertEqual(rv.status_code, 200)
-        self.assertIn(b'BrightFleet', rv.data)
+        self.assertIn(b'Fleet', rv.data)
 
     def test_db_initialization(self):
         """Test DB creates default row on init"""

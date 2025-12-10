@@ -192,7 +192,7 @@ describe('GameEngine Core Logic', () => {
         const ship = {
             x: 0, y: 0,
             vx: 0, vy: 0,
-            targetX: 100, targetY: 100,
+            targetId: 'i1', // Must match island ID for update logic to find target
             state: 'SAILING',
             teamName: 'T1',
             targetKpiIds: []
