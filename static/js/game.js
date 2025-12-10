@@ -1465,6 +1465,9 @@ class GameEngine {
             const dist = Math.sqrt(Math.pow(this.mouse.x - this.dragStart.x, 2) + Math.pow(this.mouse.y - this.dragStart.y, 2));
             if (dist < 5) {
                 ui.openIslandModal(null, null, this.draggingIsland);
+            } else {
+                // Dragged significantly -> Save new location
+                this.autoSave();
             }
             this.draggingIsland = null;
         }
@@ -1473,6 +1476,9 @@ class GameEngine {
              const dist = Math.sqrt(Math.pow(this.mouse.x - this.dragStart.x, 2) + Math.pow(this.mouse.y - this.dragStart.y, 2));
              if (dist < 5) {
                 ui.openMainGoalModal(null, null, this.draggingMainGoal);
+             } else {
+                 // Dragged significantly -> Save new location
+                 this.autoSave();
              }
              this.draggingMainGoal = null;
         }
