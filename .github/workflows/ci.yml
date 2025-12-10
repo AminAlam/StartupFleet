@@ -1,4 +1,4 @@
-name: BrightFleet CI
+name: StartupFleet CI
 
 on:
   push:

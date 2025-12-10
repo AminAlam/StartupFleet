@@ -1,6 +1,6 @@
-# BrightFleet - Strategic Visualization Platform
+# StartupFleet - Strategic Visualization Platform
 
-BrightFleet is an interactive, browser-based strategic management tool designed to visualize complex organizational goals, expeditions, and resource allocations in a gamified "Sea of Strategy" metaphor.
+StartupFleet is an interactive, browser-based strategic management tool designed to visualize complex organizational goals, expeditions, and resource allocations in a gamified "Sea of Strategy" metaphor.
 
 ## 🌟 Key Features
 
