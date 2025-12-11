@@ -8,79 +8,73 @@ DB_FILE = 'game.db'
 
 # Rich Initial State with Strategy Data
 DEFAULT_STATE = {
+    "projectTitle": "Startup Fleet Demo",
     "teams": [
-        {"id": "t1", "name": "Engineering", "icon": "⚙️", "color": "#FF6B6B", "totalShips": 8, "deployed": []},
-        {"id": "t2", "name": "Clinical", "icon": "🩺", "color": "#4ECDC4", "totalShips": 6, "deployed": []},
-        {"id": "t3", "name": "Regulatory", "icon": "⚖️", "color": "#45B7D1", "totalShips": 4, "deployed": []},
-        {"id": "t4", "name": "Market Access", "icon": "💰", "color": "#F7DC6F", "totalShips": 5, "deployed": []},
-        {"id": "t5", "name": "Commercial", "icon": "📈", "color": "#BB8FCE", "totalShips": 7, "deployed": []},
-        {"id": "t6", "name": "Operations", "icon": "🏗️", "color": "#F1948A", "totalShips": 6, "deployed": []}
+        {"id": "t1", "name": "Engineering", "icon": "⚙️", "color": "#FF6B6B", "totalShips": 12, "deployed": [
+            {"deploymentId": "dep_t1_1", "islandId": "p1", "kpiIds": ["k1_1", "k1_2"]}
+        ]},
+        {"id": "t2", "name": "Product", "icon": "💡", "color": "#4ECDC4", "totalShips": 6, "deployed": [
+            {"deploymentId": "dep_t2_1", "islandId": "p1", "kpiIds": ["k1_3"]}
+        ]},
+        {"id": "t3", "name": "Design", "icon": "🎨", "color": "#45B7D1", "totalShips": 4, "deployed": []},
+        {"id": "t4", "name": "Marketing", "icon": "📣", "color": "#F7DC6F", "totalShips": 8, "deployed": [
+            {"deploymentId": "dep_t4_1", "islandId": "p4", "kpiIds": ["k4_2"]}
+        ]},
+        {"id": "t5", "name": "Sales", "icon": "💼", "color": "#BB8FCE", "totalShips": 10, "deployed": [
+            {"deploymentId": "dep_t5_1", "islandId": "p3", "kpiIds": ["k3_1"]}
+        ]},
+        {"id": "t6", "name": "Success", "icon": "🤝", "color": "#F1948A", "totalShips": 6, "deployed": []},
+        {"id": "t7", "name": "Ops & Finance", "icon": "🏦", "color": "#90A4AE", "totalShips": 4, "deployed": []}
     ],
     "mainGoals": [
         {
-            "id": "mg1", "title": "US Commercial Launch 2028", "x": 0, "y": -600, 
-            "icon": "🚀",
-            "desc": "Achieve successful commercial launch in the US with Regulatory approval, Reimbursement >70%, and >1000 procedures/year."
+            "id": "mg1", "title": "$100M ARR (Unicorn)", "x": -250, "y": -600, 
+            "icon": "🦄",
+            "desc": "Achieve unicorn status by hitting $100M Annual Recurring Revenue with strong unit economics."
+        },
+        {
+            "id": "mg2", "title": "Category Leadership", "x": 250, "y": -600,
+            "icon": "👑",
+            "desc": "Establish undisputed market leadership through product innovation and brand dominance."
         }
     ],
     "islands": [
         {
-            "id": "p1", "mainGoalId": "mg1", "x": -400, "y": -100, "title": "Clinical Evidence", "icon": "📊",
-            "desc": "Generate compelling clinical evidence demonstrating safety, efficacy, and economic value.",
+            "id": "p1", "mainGoalId": "mg2", "x": -400, "y": -100, "title": "Platform 2.0", "icon": "🚀",
+            "desc": "Launch the next-generation AI-powered platform to increase retention and upsell.",
             "kpis": [
-                {"id": "k1_1", "desc": "Pivotal trial primary endpoint met", "deadline": "2026-06-01", "completed": False, "assigned": []},
-                {"id": "k1_2", "desc": "Enrollment > 90% of plan", "deadline": "2025-12-01", "completed": False, "assigned": []},
-                {"id": "k1_3", "desc": "Interim data milestones hit", "deadline": "2025-06-01", "completed": True, "assigned": []}
+                {"id": "k1_1", "desc": "Beta Launch with 50 customers", "deadline": "2026-03-01", "completed": True, "assigned": []},
+                {"id": "k1_2", "desc": "99.99% Uptime SLA", "deadline": "2026-06-01", "completed": False, "assigned": []},
+                {"id": "k1_3", "desc": "Migrate 80% of legacy users", "deadline": "2026-12-01", "completed": False, "assigned": []}
             ],
             "expanded": False
         },
         {
-            "id": "p2", "mainGoalId": "mg1", "x": -250, "y": 150, "title": "Regulatory & Quality", "icon": "🏛️",
-            "desc": "Obtain regulatory approvals supported by robust QMS and post-market plans.",
+            "id": "p2", "mainGoalId": "mg1", "x": -200, "y": 150, "title": "Global Expansion", "icon": "🌍",
+            "desc": "Expand footprint into EMEA and APAC regions to drive new logo acquisition.",
             "kpis": [
-                {"id": "k2_1", "desc": "Key submissions filed on time (IDE)", "deadline": "2025-09-01", "completed": False, "assigned": []},
-                {"id": "k2_2", "desc": "QMS fully implemented (ISO 13485)", "deadline": "2025-12-01", "completed": False, "assigned": []},
-                {"id": "k2_3", "desc": "Zero major audit NCs", "deadline": "2026-01-01", "completed": False, "assigned": []}
+                {"id": "k2_1", "desc": "Hire EMEA Sales VP", "deadline": "2025-09-01", "completed": False, "assigned": []},
+                {"id": "k2_2", "desc": "Open London Office", "deadline": "2025-11-01", "completed": True, "assigned": []},
+                {"id": "k2_3", "desc": "$5M ARR from APAC", "deadline": "2026-06-01", "completed": False, "assigned": []}
             ],
             "expanded": False
         },
         {
-            "id": "p3", "mainGoalId": "mg1", "x": 0, "y": 250, "title": "Market Access", "icon": "💲",
-            "desc": "Secure sustainable reimbursement pathways for providers and payers.",
+            "id": "p3", "mainGoalId": "mg1", "x": 200, "y": 150, "title": "Enterprise Sales", "icon": "🏙️",
+            "desc": "Move upmarket to close Fortune 500 deals with higher ACV.",
             "kpis": [
-                {"id": "k3_1", "desc": "Completion of budget impact models", "deadline": "2026-03-01", "completed": False, "assigned": []},
-                {"id": "k3_2", "desc": "Limited reimbursement agreements (3 sites)", "deadline": "2026-06-01", "completed": False, "assigned": []},
-                {"id": "k3_3", "desc": "Time to payment < 45 days validation", "deadline": "2026-09-01", "completed": False, "assigned": []}
+                {"id": "k3_1", "desc": "Close 10 Fortune 500 deals", "deadline": "2026-06-01", "completed": False, "assigned": []},
+                {"id": "k3_2", "desc": "SOC2 Type II Compliance", "deadline": "2025-12-01", "completed": True, "assigned": []}
             ],
             "expanded": False
         },
         {
-            "id": "p4", "mainGoalId": "mg1", "x": 250, "y": 150, "title": "Commercial Adoption", "icon": "🤝",
-            "desc": "Drive meaningful adoption by early centers and build clinical advocacy.",
+            "id": "p4", "mainGoalId": "mg2", "x": 400, "y": -100, "title": "Community & Brand", "icon": "❤️",
+            "desc": "Build a defensible moat through community engagement and thought leadership.",
             "kpis": [
-                {"id": "k4_1", "desc": "Sign 5 early adopter centers", "deadline": "2027-01-01", "completed": False, "assigned": []},
-                {"id": "k4_2", "desc": "10 KOLs actively advocating", "deadline": "2026-12-01", "completed": False, "assigned": []},
-                {"id": "k4_3", "desc": "Clinician training program live", "deadline": "2026-06-01", "completed": True, "assigned": []}
-            ],
-            "expanded": False
-        },
-        {
-            "id": "p5", "mainGoalId": "mg1", "x": 400, "y": -100, "title": "Ops Readiness", "icon": "📦",
-            "desc": "Build infrastructure to deliver and service the therapy at scale.",
-            "kpis": [
-                {"id": "k5_1", "desc": "Define order-to-delivery process", "deadline": "2026-02-01", "completed": False, "assigned": []},
-                {"id": "k5_2", "desc": "Hire key field support roles", "deadline": "2026-04-01", "completed": False, "assigned": []},
-                {"id": "k5_3", "desc": "Implement CRM & ERP basics", "deadline": "2025-11-01", "completed": True, "assigned": []}
-            ],
-            "expanded": False
-        },
-        {
-            "id": "p6", "mainGoalId": "mg1", "x": 0, "y": -300, "title": "Product & Tech", "icon": "🔧",
-            "desc": "Design and validate a device that is safe, effective, and manufacturable.",
-            "kpis": [
-                {"id": "k6_1", "desc": "Pivotal-grade design freeze", "deadline": "2025-08-01", "completed": False, "assigned": []},
-                {"id": "k6_2", "desc": "Complete integrated prototype", "deadline": "2025-05-01", "completed": False, "assigned": []},
-                {"id": "k6_3", "desc": "Close top 5 usability issues", "deadline": "2025-07-01", "completed": False, "assigned": []}
+                {"id": "k4_1", "desc": "Host Annual User Conference", "deadline": "2026-05-01", "completed": False, "assigned": []},
+                {"id": "k4_2", "desc": "10k Discord Members", "deadline": "2025-12-01", "completed": True, "assigned": []},
+                {"id": "k4_3", "desc": "Launch Academy/Certification", "deadline": "2026-01-01", "completed": False, "assigned": []}
             ],
             "expanded": False
         }
@@ -126,5 +120,11 @@ def save_game():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
+import argparse
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    parser = argparse.ArgumentParser(description='Startup Fleet Server')
+    parser.add_argument('--port', type=int, default=5000, help='Port to run the server on')
+    args = parser.parse_args()
+    
+    app.run(debug=True, port=args.port)

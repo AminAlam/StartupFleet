@@ -36,17 +36,22 @@ export class Utils {
         const ctx = canvas.getContext('2d');
         ctx.font = `bold ${fontSize}px Arial`;
         const metrics = ctx.measureText(text);
-        const w = Math.ceil(metrics.width) + 20;
+        const w = Math.ceil(metrics.width) + 30; // Extra padding for stroke
         const h = Math.ceil(fontSize * 1.5);
         canvas.width = w;
         canvas.height = h;
         
         ctx.font = `bold ${fontSize}px Arial`;
-        ctx.fillStyle = color;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(255,255,255,0.8)';
-        ctx.shadowBlur = 4;
+        
+        // Strong black outline
+        ctx.strokeStyle = 'rgba(0,0,0,0.9)';
+        ctx.lineWidth = 4;
+        ctx.strokeText(text, w/2, h/2);
+        
+        // Text fill
+        ctx.fillStyle = color;
         ctx.fillText(text, w/2, h/2);
         
         const tex = new THREE.CanvasTexture(canvas);

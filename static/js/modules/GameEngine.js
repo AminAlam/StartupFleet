@@ -73,6 +73,13 @@ export class GameEngine {
     loadState(data) {
         this.state = data;
         if (!this.state.mainGoals) this.state.mainGoals = [];
+        if (!this.state.projectTitle) this.state.projectTitle = "Startup Fleet";
+
+        if(typeof window.ui !== 'undefined') {
+            window.ui.renderTeams();
+            window.ui.updateProjectTitle(this.state.projectTitle);
+            window.ui.checkTutorial();
+        }
 
         this.state.islands.forEach(i => {
             if (!Array.isArray(i.kpis)) {
@@ -410,7 +417,7 @@ export class GameEngine {
         gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
         gradient.addColorStop(0.1, "rgba(255, 215, 0, 0.6)");
         gradient.addColorStop(1, "rgba(255, 215, 0, 0)");
-        
+
         this.ctx.fillStyle = gradient;
         this.ctx.beginPath();
         this.ctx.arc(starX, starY, 400 * pulse, 0, Math.PI*2);
@@ -424,7 +431,7 @@ export class GameEngine {
         
         this.ctx.font = "bold 60px Poppins";
         this.ctx.fillStyle = "rgba(2, 119, 189, 0.8)";
-        this.ctx.fillText("NORTH STAR VISION", starX, starY + 100);
+        this.ctx.fillText("Vision", starX, starY + 100);
     }
 
     drawMainGoal(mg) {

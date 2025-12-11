@@ -226,3 +226,26 @@ td.cell-number { text-align: center; font-weight: 600; }
 
 @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
 @keyframes fadeUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Tutorial Styles */
+#tutorial-overlay {
+    position: fixed; bottom: 20px; right: 20px;
+    z-index: 300; pointer-events: auto;
+}
+.tutorial-card {
+    background: white; width: 320px; padding: 20px; border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid var(--primary);
+    animation: fadeUp 0.3s ease;
+}
+.tutorial-card h2 {
+    margin: 0 0 10px 0; font-size: 16px; color: var(--primary);
+}
+.tutorial-card p {
+    font-size: 13px; line-height: 1.5; color: #555; margin-bottom: 20px;
+}
+.tutorial-controls {
+    display: flex; justify-content: space-between; align-items: center;
+}
+.tutorial-progress {
+    text-align: center; margin-top: 10px; font-size: 11px; color: #999;
+}

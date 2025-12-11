@@ -60,8 +60,8 @@ export class ThreeEngine {
         dirLight.shadow.mapSize.height = 2048;
         this.scene.add(dirLight);
 
-        // North Star Light - much brighter and larger range
-        const starLight = new THREE.PointLight(0xffffcc, 2.0, 5000);
+        // North Star Light - dimmed
+        const starLight = new THREE.PointLight(0xffffcc, 1.0, 5000);
         starLight.position.set(0, 600, -1000);
         this.scene.add(starLight);
 
@@ -130,7 +130,8 @@ export class ThreeEngine {
         const innerGlowMat = new THREE.SpriteMaterial({ 
             map: new THREE.CanvasTexture(this.createGlowTexture()), 
             color: 0xffffcc, transparent: true, blending: THREE.AdditiveBlending,
-            fog: false, depthWrite: false, depthTest: false
+            fog: false, depthWrite: false, depthTest: false,
+            opacity: 0.6
         });
         const innerGlow = new THREE.Sprite(innerGlowMat);
         innerGlow.scale.set(600, 600, 1);
@@ -140,7 +141,8 @@ export class ThreeEngine {
         const midGlowMat = new THREE.SpriteMaterial({ 
             map: new THREE.CanvasTexture(this.createGlowTexture()), 
             color: 0xffd700, transparent: true, blending: THREE.AdditiveBlending,
-            fog: false, depthWrite: false, depthTest: false
+            fog: false, depthWrite: false, depthTest: false,
+            opacity: 0.4
         });
         const midGlow = new THREE.Sprite(midGlowMat);
         midGlow.scale.set(1200, 1200, 1);
@@ -150,7 +152,8 @@ export class ThreeEngine {
         const outerGlowMat = new THREE.SpriteMaterial({ 
             map: new THREE.CanvasTexture(this.createGlowTexture()), 
             color: 0xffeedd, transparent: true, blending: THREE.AdditiveBlending,
-            fog: false, depthWrite: false, depthTest: false
+            fog: false, depthWrite: false, depthTest: false,
+            opacity: 0.2
         });
         const outerGlow = new THREE.Sprite(outerGlowMat);
         outerGlow.scale.set(2000, 2000, 1);
@@ -947,21 +950,33 @@ export class ThreeEngine {
                 group.add(islandMesh);
 
                 // Title Sprite (Billboard)
-                const tData = Utils.createTextTexture(isl.title, '#01579b', 40);
-                const sMat = new THREE.SpriteMaterial({ map: tData.texture, depthTest: false });
+                const tData = Utils.createTextTexture(isl.title, 'white', 40, true);
+                const sMat = new THREE.SpriteMaterial({ 
+                    map: tData.texture, 
+                    depthTest: false,
+                    transparent: true,
+                    fog: false
+                });
                 const sprite = new THREE.Sprite(sMat);
                 sprite.scale.set(tData.aspect * 60, 60, 1);
-                sprite.position.y = 110;
+                sprite.position.y = 150; 
                 sprite.userData.isBillboard = true;
+                sprite.renderOrder = 2000; // Render on top of North Star glow (999)
                 group.add(sprite);
 
                 // Icon Sprite
-                const iData = Utils.createTextTexture(isl.icon, '#000', 80);
-                const iMat = new THREE.SpriteMaterial({ map: iData.texture, depthTest: false });
+                const iData = Utils.createTextTexture(isl.icon, 'white', 80, false); // No background for icon
+                const iMat = new THREE.SpriteMaterial({ 
+                    map: iData.texture, 
+                    depthTest: false,
+                    transparent: true,
+                    fog: false
+                });
                 const iSprite = new THREE.Sprite(iMat);
                 iSprite.scale.set(iData.aspect * 50, 50, 1);
-                iSprite.position.y = 70;
+                iSprite.position.y = 100;
                 iSprite.userData.isBillboard = true;
+                iSprite.renderOrder = 2000;
                 group.add(iSprite);
 
                 // KPI Satellites as Small Islands
@@ -984,22 +999,34 @@ export class ThreeEngine {
 
                         // KPI Number Label
                         const label = kpi.id.split('_')[1] || (idx+1);
-                        const lData = Utils.createTextTexture(`#${label}`, '#fff', 28);
-                        const lMat = new THREE.SpriteMaterial({ map: lData.texture });
+                        const lData = Utils.createTextTexture(`#${label}`, '#fff', 28, true);
+                        const lMat = new THREE.SpriteMaterial({ 
+                            map: lData.texture, 
+                            transparent: true,
+                            fog: false,
+                            depthTest: false
+                        });
                         const lSprite = new THREE.Sprite(lMat);
                         lSprite.scale.set(lData.aspect * 22, 22, 1);
                         lSprite.position.y = 45;
                         lSprite.userData.isBillboard = true;
+                        lSprite.renderOrder = 2000;
                         kGroup.add(lSprite);
                         
                         // KPI Description (truncated)
                         const shortDesc = kpi.desc.length > 20 ? kpi.desc.substring(0, 18) + '...' : kpi.desc;
-                        const dData = Utils.createTextTexture(shortDesc, kpi.completed ? '#66bb6a' : '#ffa726', 20);
-                        const dMat = new THREE.SpriteMaterial({ map: dData.texture });
+                        const dData = Utils.createTextTexture(shortDesc, kpi.completed ? '#66bb6a' : '#ffa726', 20, true);
+                        const dMat = new THREE.SpriteMaterial({ 
+                            map: dData.texture,
+                            transparent: true,
+                            fog: false,
+                            depthTest: false
+                        });
                         const dSprite = new THREE.Sprite(dMat);
                         dSprite.scale.set(dData.aspect * 18, 18, 1);
                         dSprite.position.y = 60;
                         dSprite.userData.isBillboard = true;
+                        dSprite.renderOrder = 2000;
                         kGroup.add(dSprite);
 
                         group.add(kGroup);
@@ -1072,21 +1099,33 @@ export class ThreeEngine {
                 group.add(glow);
 
                 // Label (larger for main goal)
-                const tData = Utils.createTextTexture(mg.title, '#ffd700', 50);
-                const sMat = new THREE.SpriteMaterial({ map: tData.texture });
+                const tData = Utils.createTextTexture(mg.title, 'white', 50, true);
+                const sMat = new THREE.SpriteMaterial({ 
+                    map: tData.texture,
+                    transparent: true,
+                    fog: false,
+                    depthTest: false
+                });
                 const sprite = new THREE.Sprite(sMat);
                 sprite.scale.set(tData.aspect * 100, 100, 1);
                 sprite.position.y = 230;
                 sprite.userData.isBillboard = true;
+                sprite.renderOrder = 2000;
                 group.add(sprite);
                 
                 // Icon
-                const iData = Utils.createTextTexture(mg.icon, '#fff', 80);
-                const iMat = new THREE.SpriteMaterial({ map: iData.texture });
+                const iData = Utils.createTextTexture(mg.icon, 'white', 80, false); // No background for icon
+                const iMat = new THREE.SpriteMaterial({ 
+                    map: iData.texture,
+                    transparent: true,
+                    fog: false,
+                    depthTest: false 
+                });
                 const iSprite = new THREE.Sprite(iMat);
                 iSprite.scale.set(iData.aspect * 60, 60, 1);
                 iSprite.position.y = 140;
                 iSprite.userData.isBillboard = true;
+                iSprite.renderOrder = 2000;
                 group.add(iSprite);
 
                 return group;
@@ -1123,11 +1162,17 @@ export class ThreeEngine {
                 group.add(model);
 
                 // Label
-                const tData = Utils.createTextTexture(s.teamName, '#fff', 24);
-                const sMat = new THREE.SpriteMaterial({ map: tData.texture });
+                const tData = Utils.createTextTexture(s.teamName, '#fff', 24, true);
+                const sMat = new THREE.SpriteMaterial({ 
+                    map: tData.texture,
+                    transparent: true,
+                    fog: false,
+                    depthTest: false
+                });
                 const sprite = new THREE.Sprite(sMat);
                 sprite.scale.set(tData.aspect * 30, 30, 1);
                 sprite.position.set(0, 40, 0);
+                sprite.renderOrder = 2000;
                 group.add(sprite);
 
                 return group;

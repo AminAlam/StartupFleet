@@ -1,7 +1,85 @@
 import { Utils, ICONS, COLORS } from './Utils.js';
 
 export class UIController {
-    constructor() {}
+    constructor() {
+        this.tutorialStep = 0;
+        this.tutorialSteps = [
+            {
+                title: "Welcome aboard, Captain! ⚓",
+                text: "Welcome to <b>Startup Fleet</b>. This platform visualizes your strategy as a fleet of ships navigating towards your goals. Let's get you oriented."
+            },
+            {
+                title: "Navigation 🗺️",
+                text: "<b>Right-Click + Drag</b> to pan the map.<br><b>Scroll</b> to zoom in and out.<br><b>Left-Click + Drag</b> to move Islands and Goals."
+            },
+            {
+                title: "Deploying Your Fleet 🚀",
+                text: "On the left sidebar, you see your <b>Teams</b>. Drag a team card onto any <b>Expedition (Island)</b> to deploy ships to that initiative."
+            },
+            {
+                title: "Manage Objectives 🎯",
+                text: "<b>Click</b> any Island or Main Goal to view details. <b>Double-Click</b> or use the Edit button to modify objectives and KPIs."
+            },
+            {
+                title: "Views & Data 📊",
+                text: "Use the top bar to switch between the <b>2D Map</b>, <b>3D World</b>, and the <b>Strategy Matrix</b> for different perspectives on your progress."
+            }
+        ];
+    }
+
+    checkTutorial() {
+        const seen = localStorage.getItem('tutorial_seen');
+        if (!seen) {
+            this.startTutorial();
+        }
+    }
+
+    startTutorial() {
+        this.tutorialStep = 0;
+        document.getElementById('tutorial-overlay').classList.remove('hidden');
+        this.renderTutorialStep();
+    }
+
+    renderTutorialStep() {
+        const step = this.tutorialSteps[this.tutorialStep];
+        document.getElementById('tutorial-title').innerHTML = step.title;
+        document.getElementById('tutorial-text').innerHTML = step.text;
+        document.getElementById('tutorial-step-indicator').innerText = `${this.tutorialStep + 1} / ${this.tutorialSteps.length}`;
+        
+        const nextBtn = document.getElementById('tutorial-next-btn');
+        nextBtn.innerText = (this.tutorialStep === this.tutorialSteps.length - 1) ? "Finish" : "Next";
+    }
+
+    nextTutorialStep() {
+        this.tutorialStep++;
+        if (this.tutorialStep >= this.tutorialSteps.length) {
+            this.skipTutorial();
+            return;
+        }
+        this.renderTutorialStep();
+    }
+
+    skipTutorial() {
+        document.getElementById('tutorial-overlay').classList.add('hidden');
+        localStorage.setItem('tutorial_seen', 'true');
+        Utils.showToast("Tutorial completed!");
+    }
+
+    editProjectTitle() {
+        const currentTitle = window.game.state.projectTitle || "Startup Fleet";
+        const newTitle = prompt("Enter new project title:", currentTitle);
+        if (newTitle && newTitle.trim() !== "") {
+            window.game.state.projectTitle = newTitle;
+            this.updateProjectTitle(newTitle);
+            window.game.autoSave();
+        }
+    }
+
+    updateProjectTitle(title) {
+        const el = document.getElementById('app-title');
+        if(el) el.innerText = title;
+        document.title = `${title}: Strategy Visualization`;
+    }
 
     switchView(view) {
         document.getElementById('btn-view-map').classList.remove('active-view');
