@@ -7,15 +7,15 @@ StartupFleet is an interactive, browser-based strategic management tool designed
 *   **Dual Visualization Modes**:
     *   **2D Tactical Map**: A high-fidelity HTML5 Canvas view with infinite pan/zoom, drag-and-drop mechanics, and physics-based ship movement.
         
-        ![](demo/2D_map.mp4)
+        ![2D Map Demo](demo/2D_map.gif)
 
     *   **3D Horizon View**: A fully explorable Three.js world with dynamic waves, floating islands, volumetric clouds, and 3D orbiting satellites.
 
-        ![](demo/3D_map.mp4)
+        ![3D View Demo](demo/3D_map.gif)
 
     *   **Strategy Matrix**: A comprehensive dashboard view for analyzing resource loading, team focus, and goal health.
 
-        ![](demo/Matrix_View.mp4)
+        ![Matrix View Demo](demo/Matrix_View.gif)
 
 *   **Strategic Hierarchy**:
     *   **North Star**: The ultimate guiding vision.
