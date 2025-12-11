@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syntropic Fleet: Strategy Visualization</title>
+    <title>Startup Fleet: Strategy Visualization</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
     <!-- Three.js from CDN -->
@@ -18,7 +18,7 @@
         
         <header>
             <div class="brand">
-                <span class="star-icon">✦</span> Syntropic Fleet
+                <span class="star-icon">✦</span> <span id="app-title" onclick="ui.editProjectTitle()" style="cursor: pointer; border-bottom: 1px dashed rgba(255,255,255,0.3);" title="Click to rename">Startup Fleet</span>
             </div>
             
             <!-- View Switcher (Top) -->
@@ -68,6 +68,21 @@
         </div>
     </div>
 
+    <!-- Tutorial Overlay -->
+    <div id="tutorial-overlay" class="hidden">
+        <div class="tutorial-card">
+            <h2 id="tutorial-title">Welcome</h2>
+            <p id="tutorial-text">Content goes here...</p>
+            <div class="tutorial-controls">
+                <button class="btn text-only" onclick="ui.skipTutorial()">Skip</button>
+                <button class="btn primary" id="tutorial-next-btn" onclick="ui.nextTutorialStep()">Next</button>
+            </div>
+            <div class="tutorial-progress">
+                <span id="tutorial-step-indicator">1 / 5</span>
+            </div>
+        </div>
+    </div>
+
     <!-- 2D Canvas -->
     <canvas id="world"></canvas>
     
@@ -91,6 +106,7 @@
         </div>
     </div>
 
-    <script src="/static/js/game.js"></script>
+    <!-- Game Logic Modules -->
+    <script type="module" src="{{ url_for('static', filename='js/modules/main.js') }}"></script>
 </body>
 </html>
